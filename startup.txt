@@ -1,0 +1,263 @@
+================================================================================
+ RedGet 2.0.0 — STARTUP GUIDE
+ how to open the site, how to use it, and how to get your work back out
+================================================================================
+
+ RedGet is a complete code forge — accounts, organizations, forges, files,
+ commits, branches, issues, pull requests, reviews, CI-style workflow runs,
+ projects, wikis, releases, discussions, packages, gists, codespaces,
+ notifications, SSH/GPG keys, a marketplace and an editor — that runs entirely
+ in your browser.
+
+ There is no server, no database service and no account anywhere else. Every
+ byte lives in this browser's localStorage on this machine. Nothing is uploaded,
+ nothing is fetched, and no third-party domain is ever contacted.
+
+
+--------------------------------------------------------------------------------
+ 1. WHAT YOU NEED
+--------------------------------------------------------------------------------
+
+   * A modern browser: Chrome, Edge, Firefox or Safari (ES modules + localStorage).
+   * Nothing else. Node.js is only needed for the `red` helper commands below.
+
+   Check your Node (optional, for the red command):
+
+       node --version            want v18 or newer
+
+
+--------------------------------------------------------------------------------
+ 2. START THE SITE
+--------------------------------------------------------------------------------
+
+ OPTION A — the red command (recommended)
+
+     Linux / macOS:
+         cd redget
+         ./red.sh serve
+
+     Windows (Command Prompt or PowerShell):
+         cd redget
+         red.bat serve
+
+     Then open:      http://localhost:4173
+     Stop it with:   Ctrl+C
+
+     Use another port:      ./red.sh serve 8080
+     Open a specific page:  ./red.sh serve 8080 #/explore
+
+
+ OPTION B — any static file server you already have
+
+         cd redget
+         python3 -m http.server 4173        # Python 3
+         npx serve .                        # Node
+         php -S localhost:4173              # PHP
+
+     Then open http://localhost:4173
+
+
+ OPTION C — double-click index.html
+
+     Works for looking around, but browsers treat file:// pages as an opaque
+     origin, so localStorage may be blocked and your account will not persist.
+     Use option A or B if you want your data to survive a reload.
+
+
+--------------------------------------------------------------------------------
+ 3. FIRST RUN — CREATE YOUR ACCOUNT
+--------------------------------------------------------------------------------
+
+   1. Open http://localhost:4173
+   2. Press "Create an account"
+   3. Choose a username. That is the only thing you enter.
+   4. RedGet generates a 15-character key. That key IS your password:
+      anyone who has it can sign in as you, and there is no reset link,
+      because there is no server to reset it with.
+   5. Copy the key somewhere safe NOW — the dialog offers "Copy key" and
+      "Download key". If you lose it, the account is unreachable.
+   6. Press "Enter RedGet".
+
+   You start with an empty account: no forges, no followers, no notifications,
+   no badges. Everything you see afterwards is something you created.
+
+
+--------------------------------------------------------------------------------
+ 4. YOUR FIRST FORGE
+--------------------------------------------------------------------------------
+
+   A "forge" is a RedGet project: files, history, branches, issues, pulls.
+
+   1. Press "n" (or New → New forge)
+   2. Name it, pick public or private, tick "Add a README"
+   3. Press "Create forge"
+   4. On the forge page: the "Code" button opens the copy/download dialog;
+      the file list opens the editor; "+" adds a file.
+
+   Handy keys once you are signed in:
+
+       ?            every shortcut
+       g then d     dashboard        g then p   your profile
+       g then e     explore          g then i   your issues
+       g then r     your pulls       g then n   notifications
+       n            new forge        /          search
+       t            find a file      Ctrl/Cmd+K command palette
+
+   Want something to look at before you build your own?
+   Settings → Data → "Load a demo workspace". It creates a real organization,
+   two forges with files and commits, a CI workflow that actually runs, issues,
+   a pull request with a review, a project board, wiki pages, a release, a gist
+   and a codespace — all through the same code paths the UI uses.
+
+
+--------------------------------------------------------------------------------
+ 5. KEEPING YOUR DATA (and getting it back out)
+--------------------------------------------------------------------------------
+
+   Everything is in one localStorage entry:  redget.db.v5
+
+   BACK UP:      Settings → Data → "Export data as JSON"   → redget-data.json
+   RESTORE:      copy that file into the browser's localStorage under the same
+                 key, or start over and paste the contents back in.
+   WIPE:         Settings → Data → "Reset all data"
+                 Settings → Danger Zone → "Reset RedGet"
+
+   Copy forges out to real folders with the red command:
+
+       ./red.sh list                          every forge in redget-data.json
+       ./red.sh export atlas                  one forge → ./atlas
+       ./red.sh export redget-labs/beacon     owner + name, no ambiguity
+       ./red.sh export --all ./backup         every forge, one folder each
+       ./red.sh export atlas --json           also write the full record
+
+   Put redget-data.json next to red.sh first, or point at it:
+
+       ./red.sh list --db ~/Downloads/redget-data.json
+
+   Paths listed in .redignore are never written out, and a file name that could
+   escape the target folder (../, an absolute path, a drive letter) is refused.
+
+   Each export also writes a FORGE.md describing what came out: owner,
+   visibility, language, branch, file and commit counts, and when you copied it.
+
+
+--------------------------------------------------------------------------------
+ 6. EVERY red COMMAND
+--------------------------------------------------------------------------------
+
+       red help                     all commands and options
+       red version                  version, Node release, file inventory
+       red info                     about this install — what, where, commands
+       red startup                  this guide, printed to the terminal
+       red serve [port]             run the site (default port 4173)
+       red list [--db FILE]         every forge in an exported database
+       red export <forge> [dir]     copy a forge's files to your computer
+       red export --all [dir]       copy every forge out
+       red check                    run the whole validation suite
+       red doctor                   diagnose this install
+
+   Flags work too:  red --help   red --info   red --version   red --startup   red --serve
+
+   Tip: run `bash install.sh` (Linux/macOS) or `install.bat` (Windows) once to
+   put `red` on your PATH, so you can type it from any folder like `git`.
+   Remove it with `bash install.sh --uninstall` / `install.bat /uninstall`.
+
+
+--------------------------------------------------------------------------------
+ 7. CHECKING THE BUILD
+--------------------------------------------------------------------------------
+
+       ./red.sh check          imports/exports · icon names · smoke test · links
+       ./red.sh doctor         is Node new enough, is jsdom there, files present
+
+   Individually:
+
+       node tools/check-imports.mjs     every import resolves, every named
+                                        import really exists, no external domain
+       node tools/check-icons.mjs       every icon name used exists in ICONS
+       node tools/smoke.mjs             boots the real app in jsdom and walks
+                                        143 routes, signed out, signed in and
+                                        with a v4 database that must migrate
+       node tools/check-links.mjs       follows every internal link on 400 pages
+       node tools/bundle.mjs            ESM → one classic script (test helper)
+
+   The smoke test needs jsdom once:   npm install jsdom@24
+
+
+--------------------------------------------------------------------------------
+ 8. TROUBLESHOOTING
+--------------------------------------------------------------------------------
+
+   "port 4173 is already in use"
+       ./red.sh serve 4174
+
+   The page loads but nothing happens
+       Open the browser console. A blocked module usually means the page was
+       opened over file:// — serve it instead (section 2).
+
+   I signed out and lost my account
+       Your key is the only way back in. If you downloaded or copied it, sign in
+       with it. If you did not, the account is gone — export your data before
+       resetting anything in future.
+
+   My data disappeared
+       localStorage is per browser, per profile, per origin. Another browser,
+       another profile, a private window, or a different port/origin all have
+       their own separate storage. Keep the JSON export as your backup.
+
+   "red: no exported database found"
+       Export from Settings → Data first, then put redget-data.json next to
+       red.sh (or pass --db /path/to/file.json).
+
+   A page looks unstyled
+       Hard-reload (Ctrl/Cmd+Shift+R). The server sends no-store, so a stale
+       cache is the usual cause.
+
+
+--------------------------------------------------------------------------------
+ 9. WHAT IS IN THE FOLDER
+--------------------------------------------------------------------------------
+
+       index.html              the whole page shell
+       README.md               the project front door
+       red.sh / red.bat        the red command (Linux/macOS · Windows)
+       install.sh / install.bat  put `red` on your PATH (like git)
+       startup.txt             this guide
+       redget.manifest.json    project metadata (not a database export)
+       .redignore              paths an export leaves out
+       .nojekyll               tells GitHub Pages to serve the site verbatim
+       package.json            version + npm scripts (no runtime dependencies)
+       assets/css/             tokens, base, components, header, views, overlay,
+                               extras → imported by main.css
+       assets/favicon.svg      the mark
+       src/app.js              boot: theme → db → session → header → router
+       src/state.js            localStorage database, session, v4 → v5 migration
+       src/icons.js            every inline SVG icon
+       src/core/               router, dom, util, keys, avatars, markdown,
+                               highlight, modal, toast, theme, palette, social,
+                               notify, forges, account, model, header, auth,
+                               bind, render, menu, orgs, projects, wiki,
+                               actions, gists, codespaces, marketplace,
+                               security, sshKeys, shortcuts, globals, demo
+       src/views/              landing, dashboard, profile, forge, forgeExtras,
+                               newForge, explore, global, settings, projects,
+                               gists, codespaces, marketplace, docs
+       tools/                  validation suite (section 7) + the red CLI engine
+       legacy/                 the previous build, kept for reference
+
+
+--------------------------------------------------------------------------------
+ 10. THE RULES THIS BUILD KEEPS
+--------------------------------------------------------------------------------
+
+   * Original throughout — its own vocabulary ("forge", "red copy"), its own
+     icons, its own markup. No third-party code host is referenced anywhere.
+   * No network calls. No CDN. No external fonts, scripts, images or APIs.
+   * No seeded users, no fake badge counts, no invented notifications. An empty
+     install is empty until you make something.
+   * Every button, link and route does something real; nothing dead-ends.
+   * Vanilla ES modules — no build step, no dependencies at runtime.
+
+================================================================================
+ RedGet 2.0.0 — startup.txt
+================================================================================

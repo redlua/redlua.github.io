@@ -1,0 +1,33 @@
+{
+  "name": "redget",
+  "kind": "forge-manifest",
+  "version": "2.0.0",
+  "description": "RedGet \u2014 a complete code forge that runs entirely in the browser. No server, no dependencies, no external domains.",
+  "entry": "index.html",
+  "commands": {
+    "serve": "red serve 4173",
+    "check": "red check",
+    "doctor": "red doctor",
+    "export": "red export <owner>/<forge> [dir]"
+  },
+  "workflows": [
+    {
+      "name": "check",
+      "on": [
+        "manual"
+      ],
+      "steps": [
+        "node tools/check-imports.mjs",
+        "node tools/check-icons.mjs",
+        "node tools/smoke.mjs",
+        "node tools/check-links.mjs"
+      ]
+    }
+  ],
+  "ignore": ".redignore",
+  "docs": [
+    "startup.txt",
+    "README.md"
+  ],
+  "note": "Not a database export. `red list` / `red export` read redget-data.json, which you download from Settings \u2192 Data."
+}

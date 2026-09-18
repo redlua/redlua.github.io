@@ -1,0 +1,13 @@
+import { buildDatabase } from './src/data/mockData.js';
+import { hydrate } from './src/core/store.js';
+hydrate(buildDatabase());
+const m = await import('./src/pages/_shared.js');
+console.log('exports:', Object.keys(m).length);
+const repo = m.db().repos[0];
+const ctx = m.repoContext({ login: 'octored', repo: 'redget-core' });
+console.log('ctx ok:', Boolean(ctx), ctx.repo.fullName, 'maintainer', ctx.maintainer);
+console.log('issues', m.repoIssues(repo).length, 'pulls', m.repoPulls(repo).length, 'commits', m.repoCommits(repo).length);
+console.log('files', m.repoFiles(repo).files.length, 'wiki', m.wikiPages(repo).length, 'runs', m.repoRuns(repo).length);
+console.log('parsed', JSON.stringify(m.parseIssueQuery('is:open label:bug,crimson author:@me sort:created-desc split')));
+console.log('contrib', m.contributionsFor('octored').length, 'feed', m.dashboardFeed('octored').length);
+console.log('prDiff', m.prDiff(m.repoPulls(repo)[0]).length, 'stepLogs', m.stepLogs(m.repoJobsForRun(m.repoRuns(repo)[0].id)[0]).length);

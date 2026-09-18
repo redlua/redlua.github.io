@@ -1,0 +1,31 @@
+{
+  "name": "redget",
+  "version": "2.0.0",
+  "private": true,
+  "description": "RedGet — a complete code forge that runs entirely in the browser: accounts by key, organizations, forges, files, commits, branches, issues, pull requests with reviews, workflow runs, projects, wikis, releases, discussions, packages, gists, codespaces, notifications, SSH/GPG keys and a marketplace. No server, no dependencies, no external domains.",
+  "type": "module",
+  "bin": {
+    "red": "tools/cli.mjs"
+  },
+  "scripts": {
+    "start": "node tools/cli.mjs serve",
+    "serve": "node tools/cli.mjs serve",
+    "version": "node tools/cli.mjs version",
+    "startup": "node tools/cli.mjs startup",
+    "export": "node tools/cli.mjs export",
+    "list": "node tools/cli.mjs list",
+    "check": "node tools/cli.mjs check",
+    "doctor": "node tools/cli.mjs doctor",
+    "check:imports": "node tools/check-imports.mjs",
+    "check:icons": "node tools/check-icons.mjs",
+    "check:links": "node tools/check-links.mjs",
+    "smoke": "node tools/smoke.mjs",
+    "bundle": "node tools/bundle.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.3"
+  }
+}

@@ -1,0 +1,13 @@
+import { buildDatabase, PR_DIFFS } from './src/data/mockData.js';
+import { hydrate } from './src/core/store.js';
+hydrate(buildDatabase());
+const s = await import('./src/pages/_shared.js');
+const repo = s.db().repos[0];
+const pull = s.repoPulls(repo)[0];
+console.log(JSON.stringify(pull, null, 1).slice(0, 2600));
+console.log('--- reviews', JSON.stringify(s.reviewsForPull(pull)).slice(0,300));
+console.log('--- threads', JSON.stringify(s.threadsForPull(pull)).slice(0,500));
+console.log('--- checks', JSON.stringify(s.checksForPull(pull)).slice(0,300));
+console.log('--- prdiff', JSON.stringify(PR_DIFFS.get(pull.id)).slice(0,400));
+console.log('--- mergeableStates', [...new Set(s.repoPulls(repo).map(p=>p.mergeableState))]);
+console.log('--- states', [...new Set(s.db().pullRequests.map(p=>[p.state,p.merged,p.draft].join('/')))]);

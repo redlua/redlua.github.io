@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark" data-theme-group="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0a0507">
+<meta name="description" content="RedGet — a fully offline, accessible, themeable source collaboration platform demo. Every repository, commit, issue, pull request and workflow run is generated locally.">
+<meta name="referrer" content="no-referrer">
+<title>RedGet · Where the crimson code lives.</title>
+<base href="/">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23d61a2f'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--
+  Anti-FOUC: the saved theme, density, locale direction and motion preference are
+  applied before the stylesheet paints. Kept inline (no module, no import) so it
+  runs synchronously in the head. Fails closed to the dark crimson theme.
+-->
+<script>
+  (function () {
+    var root = document.documentElement;
+    var prefs = {};
+    try {
+      prefs = JSON.parse(localStorage.getItem('redget:prefs:v4') || '{}') || {};
+    } catch (error) { prefs = {}; }
+    var theme = prefs.theme || 'dark';
+    var group = (theme === 'light' || theme === 'contrast-light') ? 'light' : 'dark';
+    root.setAttribute('data-theme', theme);
+    root.setAttribute('data-theme-group', group);
+    root.style.colorScheme = group;
+    if (prefs.density) root.setAttribute('data-density', prefs.density);
+    if (prefs.reducedMotion) root.setAttribute('data-reduced-motion', 'true');
+    if (prefs.locale) root.setAttribute('lang', prefs.locale);
+    if (prefs.locale === 'ar' || prefs.locale === 'he') root.setAttribute('dir', 'rtl');
+    root.setAttribute('data-boot', 'pending');
+  })();
+</script>
+</head>
+
+<body class="app-body">
+
+<noscript>
+  <div class="noscript-banner" role="alert">
+    <strong>RedGet needs JavaScript.</strong>
+    This is a fully client-side demo: the dataset, router and rendering all run in
+    the browser. Enable JavaScript, or read the static
+    <a href="/docs/html-structure">HTML structure guide</a> for the markup contract.
+  </div>
+</noscript>
+
+<!--
+  Icon sprite: injected at build time by tools/build-html.mjs so that
+  <use href="#icon-*"> resolves without a second network request.
+  It is hidden from assistive technology; every consumer sets aria-hidden.
+-->
+<div id="redget-sprite" hidden aria-hidden="true"><!--SPRITE--></div>
+
+<!-- The app shell (header, main#app, footer, toasts) is built by src/app.js. -->
+
+<script type="module">
+  import { bootstrap } from '/src/app.js';
+
+  bootstrap(document.body).catch((error) => {
+    console.error('[RedGet] boot failed', error);
+    var main = document.getElementById('app');
+    if (main) {
+      main.innerHTML =
+        '<div class="container error-container"><div class="error-card">' +
+        '<p class="error-code">500</p>' +
+        '<h1 class="error-title">RedGet could not start</h1>' +
+        '<p class="error-description">' +
+        'The application shell failed to initialise. In most cases this is stale ' +
+        'demo data left over from an older schema version.</p>' +
+        '<div class="error-actions">' +
+        '<button class="btn btn-primary" type="button" id="redget-reset">Clear demo data and reload</button>' +
+        '<a class="btn" href="/docs">Read the docs</a>' +
+        '</div></div></div>';
+      var button = document.getElementById('redget-reset');
+      if (button) {
+        button.addEventListener('click', function () {
+          try {
+            Object.keys(localStorage)
+              .filter(function (key) { return key.indexOf('redget:') === 0; })
+              .forEach(function (key) { localStorage.removeItem(key); });
+          } catch (storageError) { /* storage may be unavailable */ }
+          window.location.reload();
+        });
+      }
+    }
+    document.documentElement.setAttribute('data-boot', 'failed');
+  });
+</script>
+
+</body>
+</html>

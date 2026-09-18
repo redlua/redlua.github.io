@@ -1,0 +1,47 @@
+import { buildDatabase, CONTENT, WIKI, CONTRIBUTIONS, PR_DIFFS, STEP_LOGS } from './src/data/mockData.js';
+const db = buildDatabase();
+const info = (name, o) => {
+  const keys = [...o.keys()];
+  console.log(`${name}: ${keys.length} -> ${keys.slice(0,6).join(' | ')}`);
+  const first = o.get(keys[0]);
+  if (first && typeof first === 'object') console.log('   fields:', Object.keys(first).slice(0,24).join(','), JSON.stringify(first).slice(0,200));
+  else console.log('   value:', String(first).slice(0,120));
+};
+info('CONTENT', CONTENT); info('WIKI', WIKI); info('CONTRIBUTIONS', CONTRIBUTIONS); info('PR_DIFFS', PR_DIFFS); info('STEP_LOGS', STEP_LOGS);
+
+
+console.log('\nWIKI keys', [...WIKI.keys()].slice(0,20).join(', '));
+console.log('\nsbom:', JSON.stringify(db.repos[0].sbom).slice(0,400));
+console.log('\nbranchProtection:', JSON.stringify(db.branchProtection[0]).slice(0,700));
+console.log('\nissueForms:', JSON.stringify(db.issueForms).slice(0,500));
+console.log('\ngist:', JSON.stringify(db.gists[0]).slice(0,400));
+console.log('\ncodespace:', JSON.stringify(db.codespaces[0]));
+console.log('\nbilling:', JSON.stringify(db.billing));
+console.log('\nrateLimits:', JSON.stringify(db.rateLimits));
+console.log('\nplans:', JSON.stringify(db.plans).slice(0,400));
+console.log('\nstatusIncidents:', JSON.stringify(db.statusIncidents).slice(0,400));
+console.log('\nachievements:', JSON.stringify(db.achievements).slice(0,300));
+console.log('\ntopics:', JSON.stringify(db.topics.slice(0,4)));
+console.log('\nmarketplace:', JSON.stringify(db.marketplace.slice(0,2)));
+console.log('\npackages:', JSON.stringify(db.packages.slice(0,2)).slice(0,500));
+console.log('\nsponsors:', JSON.stringify(db.sponsors), JSON.stringify(db.sponsorTiers));
+console.log('\nsessions:', JSON.stringify(db.sessions.slice(0,2)));
+console.log('\ntokens:', JSON.stringify(db.tokens.slice(0,2)));
+console.log('\nauditLog:', JSON.stringify(db.auditLog.slice(0,2)));
+console.log('\nredgetApps:', JSON.stringify(db.redgetApps).slice(0,500));
+console.log('\noauthApps:', JSON.stringify(db.oauthApps).slice(0,400));
+console.log('\ndeployKeys:', JSON.stringify(db.deployKeys).slice(0,300));
+console.log('\nsshKeys:', JSON.stringify(db.sshKeys).slice(0,300));
+console.log('\ngpgKeys:', JSON.stringify(db.gpgKeys).slice(0,400));
+console.log('\nsavedReplies:', JSON.stringify(db.savedReplies).slice(0,300));
+console.log('\ndeployments:', JSON.stringify(db.deployments.slice(0,2)));
+console.log('\nenvironments:', JSON.stringify(db.environments.slice(0,1)));
+console.log('\nsecrets:', JSON.stringify(db.secrets.slice(0,2)));
+console.log('\nrunners:', JSON.stringify(db.runners.slice(0,2)));
+console.log('\nartifacts:', JSON.stringify(db.artifacts.slice(0,2)));
+console.log('\ncaches:', JSON.stringify(db.caches.slice(0,2)));
+console.log('\nworkflows:', JSON.stringify(db.workflows.slice(0,2)));
+console.log('\niterations:', JSON.stringify(db.iterations));
+console.log('\nteams:', JSON.stringify(db.teams.slice(0,2)));
+console.log('\norg:', JSON.stringify(db.orgs[0]));
+console.log('\nuser0:', JSON.stringify(db.users[0]));

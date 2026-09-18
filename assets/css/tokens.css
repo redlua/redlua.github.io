@@ -1,0 +1,78 @@
+/* RedGet — design tokens + theme variants (dark / light / hc)
+   Extracted verbatim from the reference UI (ubi.html); tokens are CSS custom
+   properties so every theme (dark / light / high contrast) re-skins the app.
+   Local styles only — no external requests, no CDN, no web fonts. */
+
+/* ═══════════ THEMES ═══════════ */
+:root,[data-theme="dark"]{
+  --bg:#0d1117; --bg-inset:#010409; --bg-elevated:#161b22;
+  --surface:#161b22; --surface-2:#1c2128; --surface-3:#21262d; --surface-4:#282e35;
+  --border:#30363d; --border-muted:#21262d;
+  --text:#c9d1d9; --text-bright:#e6edf3; --text-muted:#8b949e; --text-subtle:#6e7681;
+  --accent:#da3633; --accent-hover:#f85149; --accent-muted:rgba(218,54,51,.15);
+  --link:#58a6ff; --link-hover:#79c0ff;
+  --green:#3fb950; --green-muted:rgba(63,185,80,.15);
+  --yellow:#d29922; --yellow-muted:rgba(210,153,34,.15);
+  --purple:#a371f7; --purple-muted:rgba(163,113,247,.15);
+  --red:#f85149; --red-muted:rgba(248,81,73,.15);
+  --blue:#58a6ff; --blue-muted:rgba(56,139,253,.15);
+  --btn-bg:#21262d; --btn-hover:#30363d; --btn-border:rgba(240,246,252,.1);
+  --shadow-md:0 3px 6px rgba(1,4,9,.4); --shadow-lg:0 8px 24px rgba(1,4,9,.6);
+  --header-bg:#010409; --overlay-bg:rgba(1,4,9,.8);
+  --code-gutter:#6e7681;
+  --selection:rgba(218,54,51,.35);
+}
+[data-theme="light"]{
+  --bg:#fff; --bg-inset:#f6f8fa; --bg-elevated:#fff;
+  --surface:#f6f8fa; --surface-2:#eaeef2; --surface-3:#dfe3e8; --surface-4:#d0d7de;
+  --border:#d0d7de; --border-muted:#d8dee4;
+  --text:#1f2328; --text-bright:#0a0c10; --text-muted:#656d76; --text-subtle:#8b949e;
+  --accent:#cf222e; --accent-hover:#a40e26; --accent-muted:rgba(207,34,46,.1);
+  --link:#0969da; --link-hover:#0550ae;
+  --green:#1a7f37; --green-muted:rgba(26,127,55,.1);
+  --yellow:#9a6700; --yellow-muted:rgba(154,103,0,.1);
+  --purple:#8250df; --purple-muted:rgba(130,80,223,.1);
+  --red:#cf222e; --red-muted:rgba(207,34,46,.1);
+  --blue:#0969da; --blue-muted:rgba(9,105,218,.1);
+  --btn-bg:#f6f8fa; --btn-hover:#eaeef2; --btn-border:rgba(31,35,40,.15);
+  --shadow-md:0 3px 6px rgba(140,149,159,.15); --shadow-lg:0 8px 24px rgba(140,149,159,.2);
+  --header-bg:#fff; --overlay-bg:rgba(31,35,40,.5);
+  --code-gutter:#8b949e; --selection:rgba(207,34,46,.2);
+}
+[data-theme="hc"]{
+  --bg:#000; --bg-inset:#000; --bg-elevated:#0a0c10;
+  --surface:#0a0c10; --surface-2:#101419; --surface-3:#161b22; --surface-4:#21262d;
+  --border:#6e7681; --border-muted:#484f58;
+  --text:#fff; --text-bright:#fff; --text-muted:#c9d1d9; --text-subtle:#8b949e;
+  --accent:#ff6b6b; --accent-hover:#ff8787; --accent-muted:rgba(255,107,107,.2);
+  --link:#79c0ff; --link-hover:#a5d6ff;
+  --green:#56d364; --yellow:#e3b341; --purple:#c297ff; --red:#ff7b72; --blue:#79c0ff;
+  --btn-bg:#21262d; --btn-hover:#30363d; --btn-border:rgba(255,255,255,.4);
+  --header-bg:#000; --overlay-bg:rgba(0,0,0,.85);
+  --code-gutter:#8b949e; --selection:rgba(255,107,107,.4);
+}
+*,*::before,*::after{box-sizing:border-box}
+::selection{background:var(--selection)}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+h1,h2,h3,h4,h5{margin:0;font-weight:600;color:var(--text-bright);letter-spacing:-.01em}
+h1{font-size:24px}h2{font-size:20px}h3{font-size:16px}h4{font-size:14px}
+p{margin:0}
+a{color:var(--link);text-decoration:none;cursor:pointer}
+a:hover{color:var(--link-hover);text-decoration:underline}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;padding:0}
+input,textarea,select{font:inherit;color:inherit}
+img{max-width:100%}
+code,kbd,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:12px}
+.hidden{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}
+.muted{color:var(--text-muted)}
+.subtle{color:var(--text-subtle)}
+.bright{color:var(--text-bright)}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:5px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--surface-4)}
+.ic{display:inline-block;vertical-align:text-bottom;fill:currentColor;flex:none}

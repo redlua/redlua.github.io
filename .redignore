@@ -1,0 +1,8 @@
+# Paths `red export` never writes out (one per line, # starts a comment).
+# A trailing slash matches a folder at any depth; * matches within a name.
+node_modules/
+.env
+.DS_Store
+*.log
+dist/
+build/

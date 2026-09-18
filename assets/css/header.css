@@ -1,0 +1,61 @@
+/* RedGet — global header, breadcrumb, search, nav, dropdowns
+   Extracted verbatim from the reference UI (ubi.html); tokens are CSS custom
+   properties so every theme (dark / light / high contrast) re-skins the app.
+   Local styles only — no external requests, no CDN, no web fonts. */
+
+/* ═══════════ HEADER ═══════════ */
+.gh-header{position:sticky;top:0;z-index:100;background:var(--header-bg);border-bottom:1px solid var(--border);height:62px}
+.gh-header-inner{max-width:1360px;margin:0 auto;height:100%;padding:0 16px;display:flex;align-items:center;gap:16px}
+.gh-left{display:flex;align-items:center;gap:8px;flex:none}
+.gh-center{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.gh-right{display:flex;align-items:center;gap:6px;flex:none}
+
+.gh-menu-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;color:var(--text);cursor:pointer;background:none;border:none;padding:0}
+.gh-menu-btn:hover{background:var(--surface-2);color:var(--text-bright)}
+.gh-logo{display:flex;align-items:center;color:var(--text-bright);flex:none;cursor:pointer}
+.gh-logo:hover{opacity:.85;text-decoration:none}
+.gh-logo svg{width:32px;height:32px;display:block}
+
+.gh-search{position:relative;flex:1;max-width:280px;min-width:0}
+.gh-search input{width:100%;height:30px;padding:0 32px 0 30px;background:var(--bg-inset);border:1px solid var(--border);border-radius:6px;color:var(--text);outline:none;font-size:14px}
+.gh-search input::placeholder{color:var(--text-subtle)}
+.gh-search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-muted)}
+.gh-search-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--text-subtle);pointer-events:none;display:flex}
+.gh-search-kbd{position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;padding:1px 5px;border:1px solid var(--border);border-radius:3px;color:var(--text-subtle);pointer-events:none;line-height:1.4}
+.gh-search input:focus~.gh-search-kbd{display:none}
+
+.gh-nav{display:flex;align-items:center;gap:2px;flex:none}
+.gh-nav a{padding:5px 10px;border-radius:6px;color:var(--text);font-size:14px;font-weight:500;white-space:nowrap;cursor:pointer;text-decoration:none}
+.gh-nav a:hover{background:var(--surface-2);color:var(--text-bright);text-decoration:none}
+
+.gh-action{position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;color:var(--text);flex:none;cursor:pointer;background:none;border:none;padding:0;text-decoration:none}
+.gh-action:hover{background:var(--surface-2);color:var(--text-bright)}
+.gh-action .badge{position:absolute;top:-1px;right:-1px;min-width:16px;height:16px;padding:0 4px;background:var(--accent);color:#fff;border-radius:8px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;border:2px solid var(--header-bg)}
+.gh-action .dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--accent);border:2px solid var(--header-bg)}
+
+.gh-avatar-btn{width:32px;height:32px;border-radius:50%;overflow:hidden;border:1px solid var(--border);cursor:pointer;flex:none;background:var(--surface-2);display:flex;align-items:center;justify-content:center;padding:0}
+.gh-avatar-btn:hover{border-color:var(--text-muted)}
+.gh-divider{width:1px;height:20px;background:var(--border);flex:none}
+
+.dd-wrap{position:relative}
+.gh-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-lg);min-width:220px;padding:6px 0;z-index:200;display:none}
+.gh-dropdown.open{display:block}
+.gh-dropdown.left{right:auto;left:0}
+.gh-dropdown.wide{min-width:300px;max-width:320px}
+.gh-dropdown-header{padding:6px 12px 8px;font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
+.gh-dropdown-item{display:flex;align-items:center;gap:10px;padding:6px 12px;font-size:13px;color:var(--text);cursor:pointer;text-decoration:none}
+.gh-dropdown-item:hover{background:var(--surface-2);color:var(--text-bright);text-decoration:none}
+.gh-dropdown-item .dd-icon{color:var(--text-muted);display:flex;flex:none;width:16px}
+.gh-dropdown-item .dd-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gh-dropdown-item .dd-hint{color:var(--text-subtle);font-size:11px}
+.gh-dropdown-item.danger{color:var(--accent)}
+.gh-dropdown-item.danger:hover{background:var(--accent-muted);color:var(--accent-hover)}
+.gh-dropdown-sep{height:1px;background:var(--border);margin:4px 0}
+.gh-dropdown-footer{padding:8px 12px;border-top:1px solid var(--border);margin-top:4px;font-size:12px;color:var(--text-muted);text-align:center}
+.notif-item{display:flex;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border-muted);cursor:pointer;align-items:flex-start}
+.notif-item:hover{background:var(--surface-2)}
+.notif-item:last-child{border-bottom:none}
+.notif-icon{width:24px;height:24px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--accent-muted);color:var(--accent)}
+.notif-body{min-width:0;flex:1}
+.notif-title{font-size:13px;color:var(--text-bright);line-height:1.4}
+.notif-meta{font-size:11px;color:var(--text-subtle);margin-top:2px}
