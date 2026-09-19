@@ -23,7 +23,7 @@ while [ -L "$SOURCE" ]; do
   SOURCE="$(readlink "$SOURCE")"
   [ "${SOURCE#/}" = "$SOURCE" ] && SOURCE="$DIR/$SOURCE"
 done
-ROOT="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+ROOT="$(cd -P "$(dirname "$SOURCE")/.." && pwd)"   # repo root = parent of cmd/
 
 CLI="$ROOT/tools/cli.mjs"
 VERSION_FILE="$ROOT/package.json"
@@ -47,6 +47,7 @@ usage() {
   COMMANDS
     help, --help, -h                   this text
     version, --version, -v             version, Node release, file inventory
+    info, about, --info, --about       about this install — what, where, commands
     startup, --startup, -s             how to open the site (prints startup.txt)
     serve [port], --serve              run RedGet on http://localhost:4173
     list, --list                       every forge in an exported database
@@ -149,6 +150,11 @@ case "${1:-help}" in
   doctor|--doctor|diagnose)
     need_node
     exec "$NODE_BIN" "$CLI" doctor
+    ;;
+
+  info|about|-i|--info|--about)
+    need_node
+    exec "$NODE_BIN" "$CLI" info
     ;;
 
   *)

@@ -18,6 +18,7 @@ REM ============================================================
 
 set "ROOT=%~dp0"
 if "%ROOT:~-1%"=="\" set "ROOT=%ROOT:~0,-1%"
+for %%I in ("%ROOT%\..") do set "ROOT=%%~fI"
 set "CLI=%ROOT%\tools\cli.mjs"
 set "STARTUP=%ROOT%\startup.txt"
 
@@ -58,6 +59,11 @@ if /i "%CMD%"=="test"     goto check
 if /i "%CMD%"=="--check"  goto check
 if /i "%CMD%"=="doctor"   goto doctor
 if /i "%CMD%"=="diagnose" goto doctor
+if /i "%CMD%"=="info"     goto info
+if /i "%CMD%"=="about"    goto info
+if /i "%CMD%"=="-i"       goto info
+if /i "%CMD%"=="--info"   goto info
+if /i "%CMD%"=="--about"  goto info
 
 echo red: "%CMD%" is not a command. Try red.bat help
 exit /b 1
@@ -75,6 +81,7 @@ echo.
 echo   COMMANDS
 echo     help, --help               this text
 echo     version, --version         version, Node release, file inventory
+echo     info, about, --info        about this install
 echo     startup, --startup         how to open the site (prints startup.txt)
 echo     serve [port], --serve      run RedGet on http://localhost:4173
 echo     list, --list               every forge in an exported database
@@ -161,6 +168,12 @@ exit /b %errorlevel%
 call :neednode
 if errorlevel 1 exit /b 1
 node "%CLI%" doctor
+exit /b %errorlevel%
+
+:info
+call :neednode
+if errorlevel 1 exit /b 1
+node "%CLI%" info
 exit /b %errorlevel%
 
 REM ------------------------------------------------------------
